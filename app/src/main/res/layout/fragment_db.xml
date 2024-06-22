@@ -15,11 +15,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sfrmAc"
+            android:text="@string/sfrmDb"
             android:textSize="25sp"
             android:textColor="@color/miColor"
             android:gravity="center"
             android:background="@color/barra"/>
-    </LinearLayout>>
+    </LinearLayout>
 
 </FrameLayout>

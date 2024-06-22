@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun init() {
-        setContentView(R.layout.activity_main)
         bottomNavigationView = findViewById(R.id.btnNavegator)
-        bottomNavigationView.setOnClickListener {
+        changeFrame(HomeFragment())
+        bottomNavigationView.setOnItemSelectedListener {
             menuItem ->
-                when(menuItem.id) {
+                when(menuItem.itemId) {
                     R.id.btnHome -> {
                         changeFrame(HomeFragment())
                         true
@@ -43,12 +43,11 @@ class MainActivity : AppCompatActivity() {
                         changeFrame(DbFragment())
                         true
                     }
-                    R.id.btnNavegator -> {
+                    R.id.btnAcerca -> {
                         changeFrame(AboutFragment())
                         true
                     }
                     else -> {
-                        Toast.makeText(this, "yooo", Toast.LENGTH_SHORT).show()
                         false
                     }
                 }

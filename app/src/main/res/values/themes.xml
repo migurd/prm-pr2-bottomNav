@@ -5,6 +5,5 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/fondo</item>
     </style>
-
-    <style name="Base.Theme.ButtonNavigation." parent="Base.Theme.AppMenuButton" />
+<!--    <style name="Base.Theme.ButtonNavigation." parent="Base.Theme.AppMenuButton" />-->
 </resources>
