@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginBottom="100sp"
         android:padding="20sp">
 
         <TextView
@@ -20,7 +21,16 @@
             android:textColor="@color/miColor"
             android:gravity="center"
             android:background="@color/barra"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20sp">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lstAlumnos"/>
+        </LinearLayout>
     </LinearLayout>
-
-
 </FrameLayout>

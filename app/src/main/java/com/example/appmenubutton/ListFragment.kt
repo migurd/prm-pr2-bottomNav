@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,10 @@ class ListFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var listView: ListView
+    private lateinit var arrayList: ArrayList<String>
+    private lateinit var adapter: ArrayAdapter<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +40,21 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        listView = view.findViewById(R.id.lstAlumnos)
+
+        // lee los alumnos
+        val items = resources.getStringArray(R.array.alumnos)
+
+        // inicia objetos arrayList
+        arrayList = java.util.ArrayList()
+        arrayList.addAll(items)
+
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, arrayList)
+
+        listView.adapter = adapter
+
+        return view
     }
 
     companion object {
