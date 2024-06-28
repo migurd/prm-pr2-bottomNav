@@ -3,34 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Main layout container -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="100sp"
-        android:padding="20sp">
+        android:orientation="vertical">
 
-        <TextView
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sfrmLista"
-            android:textSize="25sp"
-            android:textColor="@color/miColor"
-            android:gravity="center"
-            android:background="@color/barra"/>
-        
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/black"
+            app:subtitleTextColor="@color/black"
+            app:title="Filtrar alumnos"
+            android:background="@color/header"/>
+
+        <!-- Content area with padding -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20sp">
-            <ListView
+            android:padding="20dp">
+
+            <!-- Title TextView -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/lstAlumnos"/>
+                android:layout_height="wrap_content"
+                android:text="@string/sfrmLista"
+                android:textSize="25sp"
+                android:textColor="@color/miColor"
+                android:gravity="center"
+                android:background="@color/header"/>
+
+            <!-- ListView -->
+            <ListView
+                android:id="@+id/lstAlumnos"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

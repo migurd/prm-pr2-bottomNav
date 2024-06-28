@@ -1,10 +1,13 @@
 package com.example.appmenubutton
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +37,20 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        // Find TextViews after inflating the view
+        val linkedin: TextView = view.findViewById(R.id.linkedin)
+        val github: TextView = view.findViewById(R.id.github)
+
+        // Set HTML content for TextViews
+        linkedin.text = Html.fromHtml(getString(R.string.linkedin))
+        linkedin.movementMethod = LinkMovementMethod.getInstance()
+
+        github.text = Html.fromHtml(getString(R.string.github))
+        github.movementMethod = LinkMovementMethod.getInstance()
+
+        return view
     }
 
     companion object {

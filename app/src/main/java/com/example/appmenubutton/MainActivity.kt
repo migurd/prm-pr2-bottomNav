@@ -1,6 +1,9 @@
 package com.example.appmenubutton
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun init() {
         bottomNavigationView = findViewById(R.id.btnNavegator)
+
         changeFrame(HomeFragment())
         bottomNavigationView.setOnItemSelectedListener {
             menuItem ->
@@ -36,6 +40,8 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.btnLista -> {
+                        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+                        setSupportActionBar(toolbar)
                         changeFrame(ListFragment())
                         true
                     }

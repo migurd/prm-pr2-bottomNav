@@ -9,6 +9,16 @@
     <string name="alumno">QUI MORA ÁNGEL ERNESTO</string>
     <string name="materia">PROGRAMACIÓN MÓVIL</string>
     <string name="carrera">ING. TECNOLOGÍAS DE LA INFORMACIÓN</string>
+    <string name="linkedin">
+        <![CDATA[
+        <a href="https://www.linkedin.com/in/angel-q-a82044203/">Ángel Qui</a>
+        ]]>
+    </string>
+    <string name="github">
+        <![CDATA[
+        <a href="https://github.com/migurd">Migurd</a>
+        ]]>
+    </string>
     <string-array name="alumnos">
         <item>QUEZADA RAMOS JULIO EMILIANO</item>
         <item>RAMÍREZ MANRÍQUEZ JOSÉ LUIS</item>

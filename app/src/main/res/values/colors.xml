@@ -2,7 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="fondo">#0066B7</color>
-    <color name="barra">#9697B0</color>
+    <color name="grey">#EE686868</color>
+    <color name="fondo">#ECECEC</color>
+    <color name="barra">#7F7F7F</color>
+    <color name="header">#BEBEBE</color>
     <color name="miColor">#000000</color>
+    <color name="blueLink">#1F358D</color>
 </resources>

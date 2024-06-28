@@ -19,7 +19,7 @@
             android:textSize="25sp"
             android:textColor="@color/miColor"
             android:gravity="center"
-            android:background="@color/barra"/>
+            android:background="@color/header"/>
     </LinearLayout>
 
 </FrameLayout>
