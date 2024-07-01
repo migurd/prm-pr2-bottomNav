@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import com.example.appmenubutton.database.Alumno
+import com.example.appmenubutton.database.dbAlumnos
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,9 @@ class DbFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var btnAgrega : Button
+    private lateinit var db : dbAlumnos
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +40,24 @@ class DbFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_db, container, false)
+        val View = inflater.inflate(R.layout.fragment_db, container, false)
+
+        // inflate the layout for this fragment
+        btnAgrega = View.findViewById(R.id.btnTest)
+
+        btnAgrega.setOnClickListener({
+            var alumno: Alumno
+            alumno = Alumno()
+            alumno.nombre="Jose"
+            alumno.matricula="233333"
+            alumno.domicilio="Av. del sol 33"
+            alumno.foto="alumno.png"
+
+            db = dbAlumnos(requireContext())
+            db.openDatabase()
+            db.insertarAlumno(alumno)
+        })
+        return View
     }
 
     companion object {
