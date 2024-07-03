@@ -23,6 +23,8 @@ class dbAlumnos (private val context: Context) {
    }
 
    fun insertarAlumno(alumno: Alumno): Long {
+      if (matriculaExiste(alumno.matricula))
+         return 0;
       val value = ContentValues().apply {
          put(DefinirDB.Alumnos.MATRICULA, alumno.matricula)
          put(DefinirDB.Alumnos.NOMBRE, alumno.nombre)
@@ -30,6 +32,7 @@ class dbAlumnos (private val context: Context) {
          put(DefinirDB.Alumnos.ESPECIALIDAD, alumno.especialidad)
          put(DefinirDB.Alumnos.FOTO, alumno.foto)
       }
+//      db.delete("alumnos", null, null)
       return db.insert(DefinirDB.Alumnos.TABLA, null, value)
    }
 
@@ -44,8 +47,24 @@ class dbAlumnos (private val context: Context) {
       return db.update(DefinirDB.Alumnos.TABLA, values, "${DefinirDB.Alumnos.ID} = $id", null)
    }
 
+   fun actualizarAlumno(alumno: Alumno, matricula: String): Int {
+      val values = ContentValues().apply {
+         put(DefinirDB.Alumnos.MATRICULA, alumno.matricula)
+         put(DefinirDB.Alumnos.NOMBRE, alumno.nombre)
+         put(DefinirDB.Alumnos.DOMICILIO, alumno.domicilio)
+         put(DefinirDB.Alumnos.ESPECIALIDAD, alumno.especialidad)
+         put(DefinirDB.Alumnos.FOTO, alumno.foto)
+      }
+      return db.update(DefinirDB.Alumnos.TABLA, values, "${DefinirDB.Alumnos.MATRICULA} = $matricula", null)
+   }
+
    fun borrarAlumno(id: Int): Int {
       return db.delete(DefinirDB.Alumnos.TABLA, "${DefinirDB.Alumnos.ID} = ?", arrayOf(id.toString()))
+   }
+
+
+   fun borrarAlumno(id: String): Int {
+      return db.delete(DefinirDB.Alumnos.TABLA, "${DefinirDB.Alumnos.MATRICULA} = ?", arrayOf(id))
    }
 
    fun mostrarAlumnos(cursor: Cursor): Alumno {
@@ -70,6 +89,25 @@ class dbAlumnos (private val context: Context) {
       return alumno
    }
 
+
+   fun getAlumno(id: String): Alumno {
+      val db = dbHelper.readableDatabase
+
+      val cursor = db.query(DefinirDB.Alumnos.TABLA, leerRegistro,
+         "${DefinirDB.Alumnos.MATRICULA} = ?",
+         arrayOf(id), null, null, null)
+
+      val alumno: Alumno
+      if (cursor.moveToFirst()) {
+         alumno = mostrarAlumnos(cursor)
+      } else {
+         alumno = Alumno() // or handle as needed
+      }
+      cursor.close()
+
+      return alumno
+   }
+
    fun leerTodos(): ArrayList<Alumno> {
       val cursor = db.query(DefinirDB.Alumnos.TABLA, leerRegistro, null, null, null, null, null)
       val listaAlumno = ArrayList<Alumno>()
@@ -82,6 +120,18 @@ class dbAlumnos (private val context: Context) {
       }
       cursor.close()
       return listaAlumno
+   }
+
+   fun matriculaExiste(matricula: String): Boolean {
+      val query = "SELECT COUNT(*) FROM ${DefinirDB.Alumnos.TABLA} WHERE ${DefinirDB.Alumnos.MATRICULA} = ?"
+      val selectionArgs = arrayOf(matricula)
+
+      val cursor = db.rawQuery(query, selectionArgs)
+      cursor.use {
+         it.moveToFirst()
+         val count = it.getInt(0)
+         return count > 0
+      }
    }
 
    fun close() {

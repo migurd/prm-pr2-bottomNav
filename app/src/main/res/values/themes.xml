@@ -2,13 +2,16 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ButtonNavigation" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/fondo</item>
-        <item name="android:textViewStyle">@style/MonospaceTextViewStyle</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
     </style>
-    <style name="MonospaceTextViewStyle" parent="android:Widget.TextView">
+    <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">monospace</item>
         <item name="android:textColor">@color/black</item>
     </style>
-<!--    <style name="Base.Theme.ButtonNavigation." parent="Base.Theme.AppMenuButton" />-->
+    <style name="EditTextStyle" parent="android:Widget.EditText">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

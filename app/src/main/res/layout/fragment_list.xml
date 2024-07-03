@@ -12,15 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/black"
-            app:subtitleTextColor="@color/black"
-            app:title="Filtrar alumnos"
-            android:background="@color/header"/>
+
 
         <!-- Content area with padding -->
         <LinearLayout
@@ -35,8 +27,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sfrmLista"
                 android:textSize="25sp"
-                android:textColor="@color/miColor"
+                android:padding="10sp"
+                android:textColor="@color/white"
                 android:gravity="center"
+                android:background="@color/miColor"/>
+
+            <!-- Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/miColor"
+                app:subtitleTextColor="@color/miColor"
+                app:title="Filtrar alumnos"
                 android:background="@color/header"/>
 
             <!-- ListView -->
@@ -44,6 +47,7 @@
                 android:id="@+id/lstAlumnos"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="140sp"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>

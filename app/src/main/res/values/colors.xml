@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="grey">#EE686868</color>
-    <color name="fondo">#ECECEC</color>
-    <color name="barra">#7F7F7F</color>
-    <color name="header">#BEBEBE</color>
-    <color name="miColor">#000000</color>
-    <color name="blueLink">#1F358D</color>
+    <color name="black">#212121</color> <!-- Dark Gray -->
+    <color name="white">#FFFFFF</color> <!-- Pure White -->
+    <color name="grey">#BDBDBD</color> <!-- Light Gray -->
+    <color name="fondo">#F5F5F5</color> <!-- Very Light Gray -->
+    <color name="barra">#ECECEC</color> <!-- Medium Gray -->
+    <color name="header">#E0E0E0</color> <!-- Lighter Gray -->
+    <color name="miColor">#3F51B5</color> <!-- Indigo -->
+    <color name="blueLink">#1E88E5</color> <!-- Bright Blue -->
+
+    <color name="your_normal_color">#3F51B5</color> <!-- Indigo or your chosen color for normal state -->
+    <color name="your_pressed_color">#303F9F</color> <!-- Darker shade of your normal color -->
+    <color name="your_focused_color">#5C6BC0</color> <!-- Slightly lighter shade for focus state -->
+    <color name="your_disabled_color">#BDBDBD</color> <!-- Light gray for disabled state -->
+
+    <color name="your_ripple_color">#5C6BC0</color> <!-- Ripple effect color -->
+    <color name="button_color">#2196F3</color> <!-- Blue color for the button -->
+    <color name="ripple_color">#1976D2</color> <!-- Darker blue for the ripple effect -->
 </resources>

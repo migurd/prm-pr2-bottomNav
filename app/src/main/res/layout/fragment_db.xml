@@ -17,18 +17,108 @@
             android:layout_height="wrap_content"
             android:text="@string/sfrmDb"
             android:textSize="25sp"
-            android:textColor="@color/miColor"
+            android:textColor="@color/white"
+            android:padding="10sp"
             android:gravity="center"
-            android:background="@color/header"/>
+            android:background="@color/miColor"/>
 
-        <Button
-            android:id="@+id/btnTest"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar alumno"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/header"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="30sp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Matrícula"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inMatrciula"
+                android:hint="2021030262"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inNombre"
+                android:hint="Nombre"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Domicilio"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inDomicilio"
+                android:hint="Calle # Colonia CP"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Foto"/>
+            <ImageView
+                android:layout_height="150sp"
+                android:layout_width="150sp"
+                android:src="@mipmap/foto"
+                android:layout_gravity="center"
+                android:id="@+id/imgAlumno"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Especialidad"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inEspecialidad"
+                android:hint="Grado, licenciatura o Ing."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="URL foto"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inUrlImagen"
+                android:hint="URL...."/>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="*">
+                <TableRow>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Guardar"
+                        android:id="@+id/btnGuardar"
+                        android:background="@drawable/button_ripple"
+                        android:textColor="@color/black"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Buscar"
+                        android:id="@+id/btnBuscar"
+                        android:background="@drawable/button_ripple"
+                        android:textColor="@color/black"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Borrar"
+                        android:id="@+id/btnBorrar"
+                        android:textColor="@color/black"
+                        android:background="@drawable/button_ripple"
+                        android:enabled="false"
+                        android:layout_margin="5sp"
+                        android:layout_span="2"/>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

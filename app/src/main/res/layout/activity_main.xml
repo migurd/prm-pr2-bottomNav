@@ -20,8 +20,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/frmContenedor"
-        android:padding="20sp"
-        android:background="@color/fondo"/>
+        android:background="@color/fondo">
+
+    </FrameLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
