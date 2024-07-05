@@ -12,7 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/miColor"
+            app:subtitleTextColor="@color/miColor"
+            app:title="Filtrar alumnos"
+            android:background="@color/header"/>
 
         <!-- Content area with padding -->
         <LinearLayout
@@ -31,16 +39,6 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:background="@color/miColor"/>
-
-            <!-- Toolbar -->
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="@color/miColor"
-                app:subtitleTextColor="@color/miColor"
-                app:title="Filtrar alumnos"
-                android:background="@color/header"/>
 
             <!-- ListView -->
             <ListView

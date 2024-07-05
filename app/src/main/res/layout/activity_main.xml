@@ -31,9 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/barra"
         app:menu="@menu/button_menu"
-        app:itemIconSize="40dp"
+        app:itemIconSize="30dp"
         app:itemTextColor="@color/miColor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

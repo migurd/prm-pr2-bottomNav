@@ -1,5 +1,6 @@
 package com.example.appmenubutton
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -98,6 +99,12 @@ class DbFragment : Fragment() {
                 } else {
                     id = db.insertarAlumno(alumno)
                     msg = "Se agregó con éxito con ID " + id
+                    // clean
+                    inMatricula.setText("")
+                    inNombre.setText("")
+                    inDomicilio.setText("")
+                    inEspecialidad.setText("")
+                    inUrlImagen.setText("")
                 }
                 Toast.makeText(
                     requireContext(),
@@ -140,39 +147,50 @@ class DbFragment : Fragment() {
 
         btnBorrar.setOnClickListener {
             // validar
-            if (inMatricula.text.toString().contentEquals("")) {
+            if (inMatricula.text.toString().isEmpty()) {
                 Toast.makeText(
                     requireContext(),
                     "Faltó capturar matrícula",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-            else {
-                db = dbAlumnos(requireContext())
-                db.openDatabase()
-                var matricula : String = inMatricula.text.toString()
-                var status : Int = db.borrarAlumno(matricula)
-                if (status != 0) {
-                    // clean
-                    inMatricula.setText("")
-                    inNombre.setText("")
-                    inDomicilio.setText("")
-                    inEspecialidad.setText("")
-                    inUrlImagen.setText("")
-                    // falta setear la imagen salvada por URL
-                    btnBorrar.isEnabled = false
-                    Toast.makeText(
-                        requireContext(),
-                        "Se borró el usuario con la matrícula $matricula",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            } else {
+                // Preguntar si está seguro
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Confirmación")
+                builder.setMessage("¿Está seguro de que desea borrar al alumno con matrícula ${inMatricula.text}?")
+                builder.setPositiveButton("Sí") { dialog, _ ->
+                    db = dbAlumnos(requireContext())
+                    db.openDatabase()
+                    val matricula: String = inMatricula.text.toString()
+                    val status: Int = db.borrarAlumno(matricula)
+                    if (status != 0) {
+                        // clean
+                        inMatricula.setText("")
+                        inNombre.setText("")
+                        inDomicilio.setText("")
+                        inEspecialidad.setText("")
+                        inUrlImagen.setText("")
+                        // falta setear la imagen salvada por URL
+                        btnBorrar.isEnabled = false
+                        Toast.makeText(
+                            requireContext(),
+                            "Se borró el usuario con la matrícula $matricula",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "No se encontró la matrícula",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    dialog.dismiss()
                 }
-                else
-                    Toast.makeText(
-                        requireContext(),
-                        "No se encontró la matrícula",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                builder.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val alert = builder.create()
+                alert.show()
             }
         }
 

@@ -1,21 +1,19 @@
-package com.example.appmenubutton
-
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.example.appmenubutton.R
 
 class ListFragment : Fragment() {
 
     private lateinit var listView: ListView
     private lateinit var arrayList: ArrayList<String>
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var adapter: CustomArrayAdapter
     private lateinit var toolbar: Toolbar
     private lateinit var searchView: SearchView
 
@@ -45,7 +43,7 @@ class ListFragment : Fragment() {
         arrayList = ArrayList()
         arrayList.addAll(items)
 
-        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, arrayList)
+        adapter = CustomArrayAdapter(requireContext(), arrayList)
         listView.adapter = adapter
 
         // Handle item click

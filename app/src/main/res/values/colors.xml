@@ -17,4 +17,13 @@
     <color name="your_ripple_color">#5C6BC0</color> <!-- Ripple effect color -->
     <color name="button_color">#2196F3</color> <!-- Blue color for the button -->
     <color name="ripple_color">#1976D2</color> <!-- Darker blue for the ripple effect -->
+
+    <color name="primaryColor">#6200EE</color>
+    <color name="primaryDarkColor">#3700B3</color>
+    <color name="onPrimaryColor">#FFFFFF</color>
+    <color name="secondaryColor">#03DAC6</color>
+    <color name="secondaryDarkColor">#018786</color>
+    <color name="onSecondaryColor">#000000</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="hintColor">#8A8A8A</color>
 </resources>
