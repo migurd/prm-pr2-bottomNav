@@ -8,10 +8,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appmenubutton.database.Alumno
 import com.example.appmenubutton.database.dbAlumnos
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class AboutFragment : Fragment() {
+class AboutFragment : Fragment(), AlumnosAdapter.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AlumnosAdapter
     private lateinit var db: dbAlumnos
@@ -41,7 +42,7 @@ class AboutFragment : Fragment() {
         // Initialize the database and adapter
         db = dbAlumnos(requireContext())
         db.openDatabase()
-        adapter = AlumnosAdapter(db.leerTodos())
+        adapter = AlumnosAdapter(db.leerTodos(), this)
         recyclerView.adapter = adapter
 
         // Set up the floating action button
@@ -73,6 +74,14 @@ class AboutFragment : Fragment() {
         })
 
         super.onCreateOptionsMenu(menu, inflater) // Call super after inflating
+    }
+
+    override fun onItemClick(alumno: Alumno) {
+        val fragment = DbFragment.newInstance(alumno)
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.frmContenedor, fragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
     companion object {
