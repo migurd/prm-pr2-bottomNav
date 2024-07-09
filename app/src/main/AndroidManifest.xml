@@ -23,4 +23,7 @@
         </activity>
     </application>
 
+    <!-- Permission to read external storage (not needed for Android 10 and above) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 </manifest>

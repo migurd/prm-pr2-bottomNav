@@ -3,25 +3,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <!-- Toolbar with SearchView -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/miColor"
+        app:subtitleTextColor="@color/miColor"
+        app:title="Filtrar alumnos"
+        android:background="@color/header"/>
+
+    <!-- Scrollable container with specified height -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20sp">
+        android:layout_marginTop="50dp"
+        android:fillViewport="true">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sfrmAc"
-            android:textSize="25sp"
-            android:textColor="@color/white"
-            android:padding="10sp"
-            android:gravity="center"
-            android:background="@color/miColor"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="20sp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sfrmAc"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:padding="10sp"
+                android:gravity="center"
+                android:background="@color/miColor"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginBottom="5dp"
+                android:fillViewport="true">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recId"
+                    />
+            </ScrollView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/miColor"
+                android:src="@mipmap/add_person"
+                app:borderWidth="2dp"
+                app:elevation="3dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Action Button -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </FrameLayout>
