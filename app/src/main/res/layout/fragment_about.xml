@@ -10,17 +10,19 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:titleTextColor="@color/miColor"
-        app:subtitleTextColor="@color/miColor"
-        app:title="Filtrar alumnos"
-        android:background="@color/header"/>
+        android:layout_height="70sp"
+        android:padding="16dp"
+        android:elevation="4dp"
+        android:background="@color/white"
+        app:titleTextColor="@color/black"
+        app:subtitleTextColor="@color/grey"
+        app:title="Filtrar alumnos"/>
 
     <!-- Scrollable container with specified height -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:fillViewport="true">
 
         <LinearLayout

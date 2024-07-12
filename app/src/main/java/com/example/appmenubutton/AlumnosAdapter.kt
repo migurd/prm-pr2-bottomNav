@@ -43,7 +43,9 @@ class AlumnosAdapter(
                     alumnosList
                 } else {
                     alumnosList.filter {
-                        it.nombre.lowercase().contains(query) || it.especialidad.lowercase().contains(query)
+                        it.nombre.lowercase().contains(query) ||
+                        it.especialidad.lowercase().contains(query) ||
+                        it.matricula.lowercase().contains(query)
                     }
                 }
                 val filterResults = FilterResults()

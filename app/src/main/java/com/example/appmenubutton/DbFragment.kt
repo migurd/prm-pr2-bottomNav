@@ -28,9 +28,7 @@ private const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2
 class DbFragment : Fragment() {
 
     private var alumno: Alumno? = null
-
     private lateinit var db: dbAlumnos
-
     private lateinit var btnGuardar: Button
     private lateinit var btnBuscar: Button
     private lateinit var btnBorrar: Button
@@ -40,7 +38,6 @@ class DbFragment : Fragment() {
     private lateinit var inDomicilio: EditText
     private lateinit var inEspecialidad: EditText
     private lateinit var imgAlumno: ImageView
-
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,200 +63,63 @@ class DbFragment : Fragment() {
         inEspecialidad = view.findViewById(R.id.inEspecialidad)
         imgAlumno = view.findViewById(R.id.imgAlumno)
 
-        // Check if an alumno was passed and pre-fill the form
         alumno?.let {
-            inMatricula.setText(it.matricula)
-            inNombre.setText(it.nombre)
-            inDomicilio.setText(it.domicilio)
-            inEspecialidad.setText(it.especialidad)
-            if (!it.foto.isNullOrEmpty()) {
-                Glide.with(this)
-                    .load(it.foto)
-                    .placeholder(R.mipmap.foto)
-                    .error(R.mipmap.foto)
-                    .into(imgAlumno)
-            } else {
-                imgAlumno.setImageResource(R.mipmap.foto)
-            }
-            btnBorrar.isEnabled = true // Enable the Borrar button if an alumno is passed
+            populateFields(it)
+            inMatricula.isEnabled = false
+            btnBorrar.isEnabled = true
         } ?: run {
-            btnBorrar.isEnabled = false // Disable the Borrar button if no alumno is passed
+            btnBorrar.isEnabled = false
         }
 
-
         btnSubirFoto.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
-                )
-            } else {
-                openImageChooser()
-            }
+            handlePhotoUpload()
         }
 
         btnGuardar.setOnClickListener {
-            if (inNombre.text.toString().isEmpty() ||
-                inDomicilio.text.toString().isEmpty() ||
-                inMatricula.text.toString().isEmpty() ||
-                inEspecialidad.text.toString().isEmpty()
-            ) {
-                Toast.makeText(
-                    requireContext(),
-                    "Faltó información por capturar",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                db = dbAlumnos(requireContext())
-                db.openDatabase()
-
-                val isRegistered = db.matriculaExiste(inMatricula.text.toString())
-                val currentAlumno = if (isRegistered) db.getAlumno(inMatricula.text.toString()) else null
-
-                val newImageUrl = imageUri?.toString()
-                val updatedImageUrl = if (!newImageUrl.isNullOrEmpty()) newImageUrl else currentAlumno?.foto
-
-                val alumno = Alumno().apply {
-                    nombre = inNombre.text.toString()
-                    matricula = inMatricula.text.toString()
-                    domicilio = inDomicilio.text.toString()
-                    especialidad = inEspecialidad.text.toString()
-                    if (updatedImageUrl != null) {
-                        foto = updatedImageUrl
-                    }
-                }
-
-                val msg: String
-                val id: Long
-                if (isRegistered) {
-                    msg = "Estudiante con matrícula ${alumno.matricula} se actualizó."
-                    db.actualizarAlumno(alumno, alumno.matricula)
-                    id = 1
-                } else {
-                    id = db.insertarAlumno(alumno)
-                    msg = "Se agregó con éxito con ID $id"
-                    // clean
-                    inMatricula.setText("")
-                    inNombre.setText("")
-                    inDomicilio.setText("")
-                    inEspecialidad.setText("")
-                    imgAlumno.setImageResource(R.mipmap.foto)
-                    imageUri = null
-                }
-                Toast.makeText(
-                    requireContext(),
-                    msg,
-                    Toast.LENGTH_SHORT
-                ).show()
-                db.close()
-            }
+            saveOrUpdateAlumno()
         }
 
         btnBuscar.setOnClickListener {
-            if (inMatricula.text.toString().isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Faltó capturar matrícula",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                db = dbAlumnos(requireContext())
-                db.openDatabase()
-                val alumno = db.getAlumno(inMatricula.text.toString())
-                if (alumno.id != 0) {
-                    inNombre.setText(alumno.nombre)
-                    inDomicilio.setText(alumno.domicilio)
-                    inEspecialidad.setText(alumno.especialidad)
-                    if (!alumno.foto.isNullOrEmpty()) {
-                        Glide.with(this)
-                            .load(alumno.foto)
-                            .placeholder(R.mipmap.foto)
-                            .error(R.mipmap.foto)
-                            .into(imgAlumno)
-                    } else {
-                        imgAlumno.setImageResource(R.mipmap.foto)
-                    }
-                    btnBorrar.isEnabled = true
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No se encontró la matrícula",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                db.close()
-            }
+            searchAlumno()
         }
 
         btnBorrar.setOnClickListener {
-            if (inMatricula.text.toString().isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Faltó capturar matrícula",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setTitle("Confirmación")
-                builder.setMessage("¿Está seguro de que desea borrar al alumno con matrícula ${inMatricula.text}?")
-                builder.setPositiveButton("Sí") { dialog, _ ->
-                    db = dbAlumnos(requireContext())
-                    db.openDatabase()
-                    val matricula = inMatricula.text.toString()
-                    val status = db.borrarAlumno(matricula)
-                    if (status != 0) {
-                        inMatricula.setText("")
-                        inNombre.setText("")
-                        inDomicilio.setText("")
-                        inEspecialidad.setText("")
-                        imgAlumno.setImageResource(R.mipmap.foto)
-                        btnBorrar.isEnabled = false
-                        Toast.makeText(
-                            requireContext(),
-                            "Se borró el usuario con la matrícula $matricula",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "No se encontró la matrícula",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    dialog.dismiss()
-                    db.close()
-                }
-                builder.setNegativeButton("No") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                val alert = builder.create()
-                alert.show()
-            }
-        }
-
-        if (alumno != null) {
-            // Pre-fill the form with the passed Alumno data
-            inMatricula.setText(alumno?.matricula)
-            inNombre.setText(alumno?.nombre)
-            inDomicilio.setText(alumno?.domicilio)
-            inEspecialidad.setText(alumno?.especialidad)
-            if (!alumno?.foto.isNullOrEmpty()) {
-                Glide.with(this)
-                    .load(alumno?.foto)
-                    .placeholder(R.mipmap.foto)
-                    .error(R.mipmap.foto)
-                    .into(imgAlumno)
-            } else {
-                imgAlumno.setImageResource(R.mipmap.foto)
-            }
+            deleteAlumno()
         }
 
         return view
+    }
+
+    private fun populateFields(alumno: Alumno) {
+        inMatricula.setText(alumno.matricula)
+        inNombre.setText(alumno.nombre)
+        inDomicilio.setText(alumno.domicilio)
+        inEspecialidad.setText(alumno.especialidad)
+        if (!alumno.foto.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(alumno.foto)
+                .placeholder(R.mipmap.foto)
+                .error(R.mipmap.foto)
+                .into(imgAlumno)
+        } else {
+            imgAlumno.setImageResource(R.mipmap.foto)
+        }
+    }
+
+    private fun handlePhotoUpload() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
+            )
+        } else {
+            openImageChooser()
+        }
     }
 
     private fun openImageChooser() {
@@ -293,6 +153,114 @@ class DbFragment : Fragment() {
                 Toast.makeText(requireContext(), "Permiso denegado para acceder a archivos.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun saveOrUpdateAlumno() {
+        if (inNombre.text.toString().isEmpty() ||
+            inDomicilio.text.toString().isEmpty() ||
+            inMatricula.text.toString().isEmpty() ||
+            inEspecialidad.text.toString().isEmpty()
+        ) {
+            Toast.makeText(requireContext(), "Faltó información por capturar", Toast.LENGTH_SHORT).show()
+        } else {
+            db = dbAlumnos(requireContext())
+            db.openDatabase()
+
+            val isRegistered = db.matriculaExiste(inMatricula.text.toString())
+            val currentAlumno = if (isRegistered) db.getAlumno(inMatricula.text.toString()) else null
+
+            val newImageUrl = imageUri?.toString()
+            val updatedImageUrl = newImageUrl ?: currentAlumno?.foto
+
+            val alumno = Alumno(
+                nombre = inNombre.text.toString(),
+                matricula = inMatricula.text.toString(),
+                domicilio = inDomicilio.text.toString(),
+                especialidad = inEspecialidad.text.toString(),
+                foto = updatedImageUrl
+            )
+
+            val msg: String
+            if (isRegistered) {
+                db.actualizarAlumno(alumno, alumno.matricula)
+                msg = "Estudiante con matrícula ${alumno.matricula} se actualizó."
+            } else {
+                db.insertarAlumno(alumno)
+                msg = "Se agregó con éxito."
+                clearFields()
+            }
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+            db.close()
+
+            // Close the fragment if an Alumno object was passed
+            if (arguments?.getParcelable<Alumno>(ARG_ALUMNO) != null) {
+                parentFragmentManager.popBackStack()
+            }
+        }
+    }
+
+
+
+    private fun searchAlumno() {
+        if (inMatricula.text.toString().isEmpty()) {
+            Toast.makeText(requireContext(), "Faltó capturar matrícula", Toast.LENGTH_SHORT).show()
+        } else {
+            db = dbAlumnos(requireContext())
+            db.openDatabase()
+            val alumno = db.getAlumno(inMatricula.text.toString())
+            if (alumno.id != 0) {
+                populateFields(alumno)
+                btnBorrar.isEnabled = true
+            } else {
+                Toast.makeText(requireContext(), "No se encontró la matrícula", Toast.LENGTH_SHORT).show()
+            }
+            db.close()
+        }
+    }
+
+    private fun deleteAlumno() {
+        if (inMatricula.text.toString().isEmpty()) {
+            Toast.makeText(requireContext(), "Faltó capturar matrícula", Toast.LENGTH_SHORT).show()
+        } else {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmación")
+            builder.setMessage("¿Está seguro de que desea borrar al alumno con matrícula ${inMatricula.text}?")
+            builder.setPositiveButton("Sí") { dialog, _ ->
+                db = dbAlumnos(requireContext())
+                db.openDatabase()
+                val matricula = inMatricula.text.toString()
+                val status = db.borrarAlumno(matricula)
+                if (status != 0) {
+                    clearFields()
+                    btnBorrar.isEnabled = false
+                    Toast.makeText(requireContext(), "Se borró el usuario con la matrícula $matricula", Toast.LENGTH_SHORT).show()
+
+                    // Close the fragment if an Alumno object was passed
+                    if (arguments?.getParcelable<Alumno>(ARG_ALUMNO) != null) {
+                        parentFragmentManager.popBackStack()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "No se encontró la matrícula", Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+                db.close()
+            }
+            builder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val alert = builder.create()
+            alert.show()
+        }
+    }
+
+
+    private fun clearFields() {
+        inMatricula.setText("")
+        inNombre.setText("")
+        inDomicilio.setText("")
+        inEspecialidad.setText("")
+        imgAlumno.setImageResource(R.mipmap.foto)
+        imageUri = null
     }
 
     companion object {
