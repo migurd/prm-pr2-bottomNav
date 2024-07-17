@@ -3,6 +3,7 @@ package com.example.appmenubutton
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -24,6 +25,8 @@ import com.example.appmenubutton.database.dbAlumnos
 private const val ARG_ALUMNO = "alumno"
 private const val PICK_IMAGE_REQUEST = 1
 private const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2
+private const val PREFS_NAME = "AppPrefs"
+private const val FIRST_RUN_KEY = "firstRun"
 
 class DbFragment : Fragment() {
 
@@ -62,6 +65,8 @@ class DbFragment : Fragment() {
         inDomicilio = view.findViewById(R.id.inDomicilio)
         inEspecialidad = view.findViewById(R.id.inEspecialidad)
         imgAlumno = view.findViewById(R.id.imgAlumno)
+
+        checkFirstRun()
 
         alumno?.let {
             populateFields(it)
@@ -199,8 +204,6 @@ class DbFragment : Fragment() {
         }
     }
 
-
-
     private fun searchAlumno() {
         if (inMatricula.text.toString().isEmpty()) {
             Toast.makeText(requireContext(), "Faltó capturar matrícula", Toast.LENGTH_SHORT).show()
@@ -253,7 +256,6 @@ class DbFragment : Fragment() {
         }
     }
 
-
     private fun clearFields() {
         inMatricula.setText("")
         inNombre.setText("")
@@ -261,6 +263,28 @@ class DbFragment : Fragment() {
         inEspecialidad.setText("")
         imgAlumno.setImageResource(R.mipmap.foto)
         imageUri = null
+    }
+
+    private fun checkFirstRun() {
+        val sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isFirstRun = sharedPreferences.getBoolean(FIRST_RUN_KEY, true)
+        if (isFirstRun) {
+            createDefaultAlumnos()
+            sharedPreferences.edit().putBoolean(FIRST_RUN_KEY, false).apply()
+        }
+    }
+
+    private fun createDefaultAlumnos() {
+        db = dbAlumnos(requireContext())
+        db.openDatabase()
+        val alumnos = listOf(
+            Alumno(1, "123456", "Juan Pérez", "Calle 1", "Ingeniería", null),
+            Alumno(2, "234567", "María López", "Calle 2", "Medicina", null),
+            Alumno(3, "345678", "Carlos García", "Calle 3", "Arquitectura", null),
+            Alumno(4, "456789", "Ana Martínez", "Calle 4", "Derecho", null)
+        )
+        alumnos.forEach { db.insertarAlumno(it) }
+        db.close()
     }
 
     companion object {
